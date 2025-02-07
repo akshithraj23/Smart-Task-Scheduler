@@ -1,0 +1,72 @@
+<!--
+Smart To-Do List HTML Template
+
+This template provides the front-end interface for the Smart To-Do List application.
+It includes an input field for adding tasks, a priority selector, an optional reminder time,
+and a list to display existing tasks. Users can also delete tasks.
+
+Features:
+- Task input field with priority selection (High, Medium, Low)
+- Optional date-time reminder input
+- Voice input button for hands-free task entry
+- Dynamically populated task list with delete functionality
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart To-Do List</title>
+    <!-- Link to external stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Smart To-Do List</h1>
+        
+        <!-- Task input section -->
+        <div class="task-input">
+            <input type="text" id="task-input" placeholder="Add a new task...">
+            
+            <!-- Priority selection dropdown -->
+            <select id="priority-input">
+                <option value="high">High</option>
+                <option value="medium" selected>Medium</option>
+                <option value="low">Low</option>
+            </select>
+            
+            <!-- Date-time picker for task reminders -->
+            <input type="datetime-local" id="remind-at-input">
+            
+            <!-- Button to add task -->
+            <button id="add-task-btn">Add Task</button>
+            
+            <!-- Button for voice input -->
+            <button id="voice-input-btn">🎤</button>
+        </div>
+        
+        <!-- Task list section -->
+        <ul id="task-list">
+            {% for task in tasks %}
+            <li>
+                <!-- Task content -->
+                <span>{{ task.content }}</span>
+                
+                <!-- Task priority display with dynamic class for styling -->
+                <span class="priority {{ task.priority }}">{{ task.priority }}</span>
+                
+                <!-- Display reminder time if available, otherwise show 'No reminder' -->
+                <span class="remind-at">{{ task.remind_at.strftime('%Y-%m-%d %H:%M') if task.remind_at else 'No reminder' }}</span>
+                
+                <!-- Delete button with data attribute for task identification -->
+                <button class="delete-btn" data-task="{{ task.content }}">❌</button>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <!-- Link to external JavaScript file -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
